@@ -2,9 +2,10 @@ package com.tradeflux;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import okhttp3.*;
 
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
@@ -18,8 +19,11 @@ public class Main {
             HashMap<String, String> params = new HashMap<>();
             params.put("symbols", "[\"BTCUSDT\",\"BNBUSDT\"]");
 
-            connector.makeApiRequest("/ticker/price", params);
+            connector.makeRESTApiRequest("/exchangeInfo",  Optional.of(params));
             logger.info("API request completed");
+
+            WebSocket bookTickerSocket = connector.connectToWSStream("btcusdt", "bookTicker");
+
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error occurred during API request", e);
         } catch (Exception e) {

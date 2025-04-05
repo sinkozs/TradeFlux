@@ -1,18 +1,12 @@
 package com.tradeflux;
 
-import com.tradeflux.grpc.*;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
-import okio.ByteString;
 
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class BinanceConnector {
@@ -34,16 +28,39 @@ public class BinanceConnector {
         this.objectMapper = new ObjectMapper();
     }
 
-    public JsonNode makeApiRequest(String endpoint, HashMap<String, String> params) throws IOException {
-        StringBuilder urlBuilder = new StringBuilder(API_BASE_URL);
+    private String getRestApiUrl(String endpoint, Optional<HashMap<String, String>> params) {
+        return buildUrl(API_BASE_URL, endpoint, params, Optional.empty());
+    }
+
+    private String getWebSocketUrl(String endpoint, Optional<HashMap<String, String>> params) {
+        return buildUrl(WS_BASE_URL, endpoint, params, Optional.empty());
+    }
+
+    private String getDirectWebSocketUrl(String endpoint, String streamName) {
+        return buildUrl(WS_BASE_URL, endpoint, Optional.empty(), Optional.of(streamName));
+    }
+
+    private String buildUrl(String baseUrl, String endpoint, Optional<HashMap<String, String>> params,
+                            Optional<String> streamParams) {
+        StringBuilder urlBuilder = new StringBuilder(baseUrl);
         urlBuilder.append(endpoint);
 
-        if (params != null && !params.isEmpty()) {
+        // Add stream parameter for WebSocket
+        if (streamParams.isPresent() && !streamParams.get().isEmpty()) {
+            if (endpoint.endsWith("/")) {
+                // Remove trailing slash if present
+                urlBuilder.deleteCharAt(urlBuilder.length() - 1);
+            }
+            urlBuilder.append("/").append(streamParams.get());
+        }
+
+        // Add query parameters
+        if (params.isPresent() && !params.get().isEmpty()) {
             boolean hasQuestionMark = urlBuilder.toString().contains("?");
             urlBuilder.append(hasQuestionMark ? "&" : "?");
 
             int count = 0;
-            for (Map.Entry<String, String> entry : params.entrySet()) {
+            for (Map.Entry<String, String> entry : params.get().entrySet()) {
                 if (count > 0) {
                     urlBuilder.append("&");
                 }
@@ -54,7 +71,12 @@ public class BinanceConnector {
             }
         }
 
-        String url = urlBuilder.toString();
+        return urlBuilder.toString();
+    }
+
+    public JsonNode makeRESTApiRequest(String endpoint, Optional<HashMap<String, String>> params) throws IOException {
+
+        String url = getRestApiUrl(endpoint, params);
         logger.info("Making request to: " + url);
 
         Request request = new Request.Builder()
@@ -72,5 +94,18 @@ public class BinanceConnector {
             System.out.println(responseBody);
             return objectMapper.readTree(responseBody);
         }
+    }
+
+    public WebSocket connectToWSStream(String symbol, String streamType) throws IOException {
+        String url = getDirectWebSocketUrl("/ws", symbol + "@" + streamType);
+        logger.info("Establishing WebSocket connection to: " + url);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        WebSocketListener listener = new BinanceWebsocketListener(symbol + "@" + streamType);
+        WebSocket webSocket = httpClient.newWebSocket(request, listener);
+        return webSocket;
     }
 }
