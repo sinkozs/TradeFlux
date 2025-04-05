@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package tradeflux;
+
+option java_package = "com.tradeflux.grpc";
+option java_multiple_files = true;
+
+service MarketDataService {
+
+    rpc GetAvailableCoins (EmptyRequest) returns (CoinListResponse) {}
+
+    rpc GetCurrentPrice (CoinRequest) returns (PriceResponse) {}
+
+    rpc GetHistoricalOHLCData (HistoricalOHLCRequest) returns (HistoricalOHLCResponse) {}
+
+    rpc StreamPriceUpdates (CoinRequest) returns (stream PriceResponse) {}
+
+    rpc StreamNBBO (stream CoinRequest) returns (StreamNBBOResponse) {}
+
+}
+
+enum Interval {
+    INTERVAL_UNKNOWN = 0;
+    SEC_1 = 1;        // "1s"
+    MINUTE_1 = 2;    // "1m"
+    MINUTE_3 = 3;    // "3m"
+    MINUTE_5 = 4;    // "5m"
+    MINUTE_15 = 5;   // "15m"
+    MINUTE_30 = 6;   // "30m"
+    HOUR_1 = 7;      // "1h"
+    HOUR_2 = 8;      // "2h"
+    HOUR_4 = 9;      // "4h"
+    HOUR_6 = 10;      // "6h"
+    HOUR_8 = 11;     // "8h"
+    HOUR_12 = 12;    // "12h"
+    DAY_1 = 13;      // "1d"
+    DAY_3 = 14;      // "3d"
+    WEEK_1 = 15;     // "1w"
+    MONTH_1 = 16;    // "1M"
+}
+
+enum RateLimitInterval {
+    RATE_LIMIT_UNKNOWN = 0;
+    SECOND = 1;
+    MINUTE = 2;
+    DAY = 3;
+}
+
+enum OrderTypes {
+    ORDER_TYPE_UNKNOWN = 0;
+    LIMIT = 1;
+    MARKET = 2;
+    STOP_LOSS = 3;
+    STOP_LOSS_LIMIT = 4;
+    TAKE_PROFIT = 5;
+    TAKE_PROFIT_LIMIT = 6;
+    LIMIT_MAKER = 7;
+}
+message EmptyRequest {}
+
+message CoinInfo {
+    string symbol = 1;
+    string base_asset = 2;
+    string quote_asset = 3;
+    repeated OrderTypes order_types = 4;
+    bool is_margin_trading_allowed = 5;
+}
+
+message CoinListResponse {
+    repeated CoinInfo coins = 1;
+}
+
+message CoinRequest {
+    repeated string symbols = 1;
+}
+
+message CoinPrice {
+    string symbol = 1;
+    double price = 2;
+    optional int32 average_price_interval_mins = 3;
+    optional int64 last_trade_time = 4;
+}
+
+message PriceResponse {
+    repeated CoinPrice coin_prices = 1;
+}
+message HistoricalOHLCRequest {
+    string symbol = 1;
+    Interval interval = 2;
+    optional int64 start_time = 3;  // Unix timestamp in ms
+    optional int64 end_time = 4;    // Unix timestamp in ms
+    optional string timezone = 5;   // Default: 0 (UTC)
+    optional int32 limit = 6;
+}
+
+message OHLCData {
+    int64 kline_open_time = 1;
+    double open_price = 2;
+    double high_price = 3;
+    double low_price = 4;
+    double volume = 5;
+    int64 kline_close_time = 6;
+    double quote_asset_volume = 7;
+    int64 number_of_trades = 8;
+    double taker_buy_asset_vol = 9;
+    double taker_buy_quote_asset_vol = 10;
+}
+message HistoricalOHLCResponse {
+    repeated OHLCData OHLC_data = 1;
+}
+
+message OHLCDataResponse {
+    string symbol = 1;
+    string interval = 2;
+    repeated OHLCData candles = 3;
+}
+
+message NBBO {
+    string symbol = 1;
+    double bid_price = 2;
+    double bid_quantity = 3;
+    double ask_price = 4;
+    double ask_quantity = 5;
+}
+message StreamNBBOResponse {
+    repeated NBBO nbbo_list = 1;
+}
