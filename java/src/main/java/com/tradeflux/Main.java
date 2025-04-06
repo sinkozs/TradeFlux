@@ -1,28 +1,24 @@
 package com.tradeflux;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import okhttp3.*;
 
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
+    private static final MarketDataService service = new MarketDataService();
 
     public static void main(String[] args) {
         logger.info("Starting TradeFlux app...");
         try {
-            BinanceConnector connector = new BinanceConnector();
-            logger.info("Making API request to Binance");
 
-            HashMap<String, String> params = new HashMap<>();
-            params.put("symbols", "[\"BTCUSDT\",\"BNBUSDT\"]");
+            // WebSocket bookTickerSocket = connector.connectToWSStream("btcusdt", "bookTicker");
 
-            connector.makeRESTApiRequest("/exchangeInfo",  Optional.of(params));
-            logger.info("API request completed");
+            MarketDataProcessorGrpc binanceService = new MarketDataProcessorGrpc(service);
+            MarketDataServer server = new MarketDataServerImpl(8080, binanceService);
 
-            WebSocket bookTickerSocket = connector.connectToWSStream("btcusdt", "bookTicker");
+            server.start();
+            server.blockUntilShutdown();
 
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error occurred during API request", e);

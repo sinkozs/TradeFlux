@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import okhttp3.WebSocket;
+
+import com.tradeflux.grpc.CoinRequest;
+import com.tradeflux.grpc.HistoricalOHLCRequest;
+import com.tradeflux.util.IntervalConverter.*;
 import java.util.*;
+
+import static com.tradeflux.util.IntervalConverter.intervalToString;
 
 public class MarketDataService {
     private BinanceConnector connector = new BinanceConnector();
@@ -83,7 +88,7 @@ public class MarketDataService {
         return response;
     }
 
-    public List<Map<String, Object>> getCurrentPriceAPI(CoinRequestBuilder requestBuilder) throws IOException {
+    public List<Map<String, Object>> getCurrentPriceAPI(CoinRequestToAPIParamsBuilder requestBuilder) throws IOException {
         HashMap<String, String> params = requestBuilder.buildParams();
         JsonNode apiResponse = connector.makeRESTApiRequest("/ticker/price", Optional.of(params));
 
@@ -118,83 +123,50 @@ public class MarketDataService {
         return response;
     }
 
-//    public List<Map<String, Object>> streamPriceUpdatesWS(String symbol) throws IOException {
-//        WebSocket ws = connector.connectToWSStream(symbol, "bookTicker");
-//
-//    }
-
-
     ///  Builders
-    public static class CoinRequestBuilder {
-        private final List<String> symbols;
+    public static class CoinRequestToAPIParamsBuilder {
+        private final CoinRequest request;
 
-        public CoinRequestBuilder(List<String> symbols) {
-            this.symbols = symbols;
+        public CoinRequestToAPIParamsBuilder(CoinRequest request) {
+            this.request = request;
         }
 
         public HashMap<String, String> buildParams() throws JsonProcessingException {
             ObjectMapper mapper = new ObjectMapper();
             HashMap<String, String> params = new HashMap<>();
 
-            params.put("symbols", mapper.writeValueAsString(symbols));
+            params.put("symbols", mapper.writeValueAsString(request.getSymbolsList()));
             return params;
         }
 
     }
 
     public static class OHLCRequestBuilder {
-        private final String symbol;
-        private final String interval;
+        private final HistoricalOHLCRequest request;
 
-        private Integer limit = 100;
-        private Integer timezone = null;
-        private Long startTime = null;
-        private Long endTime = null;
-
-        public OHLCRequestBuilder(String symbol, String interval) {
-            this.symbol = symbol;
-            this.interval = interval;
-        }
-
-        public OHLCRequestBuilder limit(Integer limit) {
-            this.limit = limit;
-            return this;
-        }
-
-        public OHLCRequestBuilder timezone(Integer timezone) {
-            this.timezone = timezone;
-            return this;
-        }
-
-        public OHLCRequestBuilder startTime(Long startTime) {
-            this.startTime = startTime;
-            return this;
-        }
-
-        public OHLCRequestBuilder endTime(Long endTime) {
-            this.endTime = endTime;
-            return this;
+        public OHLCRequestBuilder(HistoricalOHLCRequest request) {
+            this.request = request;
         }
 
         public HashMap<String, String> buildParams() {
             HashMap<String, String> params = new HashMap<>();
-            params.put("symbol", symbol);
-            params.put("interval", interval);
+            params.put("symbol", request.getSymbol());
+            params.put("interval", intervalToString(request.getInterval()));
 
-            if (limit != null) {
-                params.put("limit", String.valueOf(limit));
+            if (request.hasLimit()) {
+                params.put("limit", String.valueOf(request.getLimit()));
             }
 
-            if (timezone != null) {
-                params.put("timeZone", String.valueOf(timezone));
+            if (request.hasTimezone()) {
+                params.put("timeZone", request.getTimezone());
             }
 
-            if (startTime != null) {
-                params.put("startTime", String.valueOf(startTime));
+            if (request.hasStartTime()) {
+                params.put("startTime", String.valueOf(request.getStartTime()));
             }
 
-            if (endTime != null) {
-                params.put("endTime", String.valueOf(endTime));
+            if (request.hasEndTime()) {
+                params.put("endTime", String.valueOf(request.getEndTime()));
             }
 
             return params;
