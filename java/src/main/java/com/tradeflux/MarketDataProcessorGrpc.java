@@ -24,7 +24,6 @@ public class MarketDataProcessorGrpc extends MarketDataServiceImplBase {
         try {
             logger.info("Received request for available coins");
             List<Map<String, Object>> coinData = marketDataService.getAvailableCoinsAPI();
-
             CoinListResponse.Builder responseBuilder = CoinListResponse.newBuilder();
 
             for (Map<String, Object> coin : coinData) {
@@ -54,7 +53,7 @@ public class MarketDataProcessorGrpc extends MarketDataServiceImplBase {
                     List<OrderTypes> protoOrderTypes = OrderTypeConverter.convertToProtoOrderTypes(orderTypesList);
                     coinInfoBuilder.addAllOrderTypes(protoOrderTypes);
                 }
-
+                logger.info("COINS" + coinInfoBuilder.build());
                 responseBuilder.addCoins(coinInfoBuilder.build());
             }
 
@@ -78,6 +77,7 @@ public class MarketDataProcessorGrpc extends MarketDataServiceImplBase {
             logger.info("Received request for current price");
 
             MarketDataService.CoinRequestToAPIParamsBuilder builder = new MarketDataService.CoinRequestToAPIParamsBuilder(request);
+
             List<Map<String, Object>> priceData = marketDataService.getCurrentPriceAPI(builder);
 
             PriceResponse.Builder responseBuilder = PriceResponse.newBuilder();

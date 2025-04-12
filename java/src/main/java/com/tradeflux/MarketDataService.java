@@ -10,11 +10,13 @@ import com.tradeflux.grpc.CoinRequest;
 import com.tradeflux.grpc.HistoricalOHLCRequest;
 import com.tradeflux.util.IntervalConverter.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 import static com.tradeflux.util.IntervalConverter.intervalToString;
 
 public class MarketDataService {
     private BinanceConnector connector = new BinanceConnector();
+    private static final Logger logger = Logger.getLogger(MarketDataService.class.getName());
 
     private Optional getSymbolsRequestParams(List<String> symbols) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();

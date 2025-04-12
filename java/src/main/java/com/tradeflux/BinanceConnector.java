@@ -91,7 +91,6 @@ public class BinanceConnector {
             }
 
             String responseBody = response.body().string();
-            System.out.println(responseBody);
             return objectMapper.readTree(responseBody);
         }
     }
