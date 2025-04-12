@@ -8,8 +8,14 @@ import java.io.IOException;
 
 import com.tradeflux.grpc.CoinRequest;
 import com.tradeflux.grpc.HistoricalOHLCRequest;
+import com.tradeflux.grpc.PriceResponse;
 import com.tradeflux.util.IntervalConverter.*;
+import io.grpc.stub.ClientResponseObserver;
+import io.grpc.stub.StreamObserver;
+import okhttp3.WebSocket;
+
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import static com.tradeflux.util.IntervalConverter.intervalToString;
@@ -17,6 +23,8 @@ import static com.tradeflux.util.IntervalConverter.intervalToString;
 public class MarketDataService {
     private BinanceConnector connector = new BinanceConnector();
     private static final Logger logger = Logger.getLogger(MarketDataService.class.getName());
+    private static final Map<StreamObserver<?>, List<WebSocket>> symbolConnections = new ConcurrentHashMap<>();
+
 
     private Optional getSymbolsRequestParams(List<String> symbols) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
@@ -124,6 +132,41 @@ public class MarketDataService {
         }
         return response;
     }
+
+    public <T> void getPriceUpdatesWS(List<String> symbols, StreamObserver<T> responseObserver, Class<T> responseType) {
+        if (symbols == null || symbols.isEmpty()) {
+            logger.warning("No symbols provided for price updates");
+            return;
+        }
+
+        List<WebSocket> connections = new ArrayList<>();
+
+        for (String symbol : symbols) {
+            try {
+                logger.info("Subscribing for price updates, symbol: " + symbol);
+                WebSocket webSocket = connector.connectToWSStreamGRPC(symbol, "bookTicker", responseObserver, responseType);
+                connections.add(webSocket);
+            } catch (IOException e) {
+                logger.warning("Failed to connect for symbol: " + symbol);
+            }
+        }
+
+        symbolConnections.put(responseObserver, connections);
+    }
+
+    // Method to close all active connections
+    public void closeAllConnections() {
+        logger.info("Closing all WebSocket connections");
+        for (Map.Entry<StreamObserver<?>, List<WebSocket>> entry : symbolConnections.entrySet()) {
+            List<WebSocket> connections = entry.getValue();
+            for (WebSocket webSocket : connections) {
+                webSocket.close(1000, "Server shutting down");
+            }
+        }
+        symbolConnections.clear();
+        logger.info("All WebSocket connections have been closed");
+    }
+
 
     ///  Builders
     public static class CoinRequestToAPIParamsBuilder {

@@ -6,6 +6,7 @@ import io.grpc.stub.StreamObserver;
 
 import com.tradeflux.util.OrderTypeConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -53,7 +54,6 @@ public class MarketDataProcessorGrpc extends MarketDataServiceImplBase {
                     List<OrderTypes> protoOrderTypes = OrderTypeConverter.convertToProtoOrderTypes(orderTypesList);
                     coinInfoBuilder.addAllOrderTypes(protoOrderTypes);
                 }
-                logger.info("COINS" + coinInfoBuilder.build());
                 responseBuilder.addCoins(coinInfoBuilder.build());
             }
 
@@ -145,6 +145,27 @@ public class MarketDataProcessorGrpc extends MarketDataServiceImplBase {
 
         } catch (Exception e) {
             logger.severe("Error in getHistoricalOHLCData: " + e.getMessage());
+            responseObserver.onError(
+                    io.grpc.Status.INTERNAL
+                            .withDescription("Internal server error: " + e.getMessage())
+                            .asRuntimeException()
+            );
+        }
+    }
+
+
+    @Override
+    public void streamPriceUpdates(CoinRequest request, StreamObserver<PriceResponse> responseObserver) {
+        try {
+            logger.info("Received request for stream current price");
+
+            MarketDataService.CoinRequestToAPIParamsBuilder builder = new MarketDataService.CoinRequestToAPIParamsBuilder(request);
+//            List<String> symbols = new ArrayList<>();
+//            symbols.add("btcusdt");
+            logger.info("request symbol list " + request.getSymbolsList());
+            marketDataService.getPriceUpdatesWS(request.getSymbolsList(), responseObserver, PriceResponse.class);
+        } catch (Exception e) {
+            logger.severe("Error in getCurrentPrice: " + e.getMessage());
             responseObserver.onError(
                     io.grpc.Status.INTERNAL
                             .withDescription("Internal server error: " + e.getMessage())

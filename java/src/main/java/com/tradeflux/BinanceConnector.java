@@ -2,6 +2,8 @@ package com.tradeflux;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tradeflux.grpc.PriceResponse;
+import io.grpc.stub.StreamObserver;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -13,7 +15,7 @@ public class BinanceConnector {
     private static final Logger logger = Logger.getLogger(BinanceConnector.class.getName());
 
     private static final String API_BASE_URL = "https://api.binance.com/api/v3";
-    private static final String WS_BASE_URL = "wss://stream.binance.com:9443/ws";
+    private static final String WS_BASE_URL = "wss://stream.binance.com:9443";
 
     private final OkHttpClient httpClient;
     private final ObjectMapper objectMapper;
@@ -104,6 +106,19 @@ public class BinanceConnector {
                 .build();
 
         WebSocketListener listener = new BinanceWebsocketListener(symbol + "@" + streamType);
+        WebSocket webSocket = httpClient.newWebSocket(request, listener);
+        return webSocket;
+    }
+
+    public <T> WebSocket connectToWSStreamGRPC(String symbol, String streamType, StreamObserver<T> responseObserver, Class<T> responseType) throws IOException {
+        String url = getDirectWebSocketUrl("/ws", symbol + "@" + streamType);
+        logger.info("Establishing WebSocket connection to: " + url);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        WebSocketListener listener = new BinanceWebsocketListener<>(responseObserver, responseType, symbol + "@" + streamType);
         WebSocket webSocket = httpClient.newWebSocket(request, listener);
         return webSocket;
     }
