@@ -109,34 +109,34 @@ public final class MarketDataServiceGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<com.tradeflux.grpc.CoinRequest,
-      com.tradeflux.grpc.PriceResponse> getStreamPriceUpdatesMethod;
+      com.tradeflux.grpc.PriceResponse> getStreamAvgPriceMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "StreamPriceUpdates",
+      fullMethodName = SERVICE_NAME + '/' + "StreamAvgPrice",
       requestType = com.tradeflux.grpc.CoinRequest.class,
       responseType = com.tradeflux.grpc.PriceResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
   public static io.grpc.MethodDescriptor<com.tradeflux.grpc.CoinRequest,
-      com.tradeflux.grpc.PriceResponse> getStreamPriceUpdatesMethod() {
-    io.grpc.MethodDescriptor<com.tradeflux.grpc.CoinRequest, com.tradeflux.grpc.PriceResponse> getStreamPriceUpdatesMethod;
-    if ((getStreamPriceUpdatesMethod = MarketDataServiceGrpc.getStreamPriceUpdatesMethod) == null) {
+      com.tradeflux.grpc.PriceResponse> getStreamAvgPriceMethod() {
+    io.grpc.MethodDescriptor<com.tradeflux.grpc.CoinRequest, com.tradeflux.grpc.PriceResponse> getStreamAvgPriceMethod;
+    if ((getStreamAvgPriceMethod = MarketDataServiceGrpc.getStreamAvgPriceMethod) == null) {
       synchronized (MarketDataServiceGrpc.class) {
-        if ((getStreamPriceUpdatesMethod = MarketDataServiceGrpc.getStreamPriceUpdatesMethod) == null) {
-          MarketDataServiceGrpc.getStreamPriceUpdatesMethod = getStreamPriceUpdatesMethod =
+        if ((getStreamAvgPriceMethod = MarketDataServiceGrpc.getStreamAvgPriceMethod) == null) {
+          MarketDataServiceGrpc.getStreamAvgPriceMethod = getStreamAvgPriceMethod =
               io.grpc.MethodDescriptor.<com.tradeflux.grpc.CoinRequest, com.tradeflux.grpc.PriceResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StreamPriceUpdates"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StreamAvgPrice"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.tradeflux.grpc.CoinRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.tradeflux.grpc.PriceResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new MarketDataServiceMethodDescriptorSupplier("StreamPriceUpdates"))
+              .setSchemaDescriptor(new MarketDataServiceMethodDescriptorSupplier("StreamAvgPrice"))
               .build();
         }
       }
     }
-    return getStreamPriceUpdatesMethod;
+    return getStreamAvgPriceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<com.tradeflux.grpc.CoinRequest,
@@ -146,7 +146,7 @@ public final class MarketDataServiceGrpc {
       fullMethodName = SERVICE_NAME + '/' + "StreamNBBO",
       requestType = com.tradeflux.grpc.CoinRequest.class,
       responseType = com.tradeflux.grpc.StreamNBBOResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<com.tradeflux.grpc.CoinRequest,
       com.tradeflux.grpc.StreamNBBOResponse> getStreamNBBOMethod() {
     io.grpc.MethodDescriptor<com.tradeflux.grpc.CoinRequest, com.tradeflux.grpc.StreamNBBOResponse> getStreamNBBOMethod;
@@ -155,7 +155,7 @@ public final class MarketDataServiceGrpc {
         if ((getStreamNBBOMethod = MarketDataServiceGrpc.getStreamNBBOMethod) == null) {
           MarketDataServiceGrpc.getStreamNBBOMethod = getStreamNBBOMethod =
               io.grpc.MethodDescriptor.<com.tradeflux.grpc.CoinRequest, com.tradeflux.grpc.StreamNBBOResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StreamNBBO"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
@@ -241,16 +241,16 @@ public final class MarketDataServiceGrpc {
 
     /**
      */
-    default void streamPriceUpdates(com.tradeflux.grpc.CoinRequest request,
+    default void streamAvgPrice(com.tradeflux.grpc.CoinRequest request,
         io.grpc.stub.StreamObserver<com.tradeflux.grpc.PriceResponse> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getStreamPriceUpdatesMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getStreamAvgPriceMethod(), responseObserver);
     }
 
     /**
      */
-    default io.grpc.stub.StreamObserver<com.tradeflux.grpc.CoinRequest> streamNBBO(
+    default void streamNBBO(com.tradeflux.grpc.CoinRequest request,
         io.grpc.stub.StreamObserver<com.tradeflux.grpc.StreamNBBOResponse> responseObserver) {
-      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getStreamNBBOMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getStreamNBBOMethod(), responseObserver);
     }
   }
 
@@ -307,18 +307,18 @@ public final class MarketDataServiceGrpc {
 
     /**
      */
-    public void streamPriceUpdates(com.tradeflux.grpc.CoinRequest request,
+    public void streamAvgPrice(com.tradeflux.grpc.CoinRequest request,
         io.grpc.stub.StreamObserver<com.tradeflux.grpc.PriceResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncServerStreamingCall(
-          getChannel().newCall(getStreamPriceUpdatesMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getStreamAvgPriceMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public io.grpc.stub.StreamObserver<com.tradeflux.grpc.CoinRequest> streamNBBO(
+    public void streamNBBO(com.tradeflux.grpc.CoinRequest request,
         io.grpc.stub.StreamObserver<com.tradeflux.grpc.StreamNBBOResponse> responseObserver) {
-      return io.grpc.stub.ClientCalls.asyncClientStreamingCall(
-          getChannel().newCall(getStreamNBBOMethod(), getCallOptions()), responseObserver);
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getStreamNBBOMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -361,10 +361,17 @@ public final class MarketDataServiceGrpc {
 
     /**
      */
-    public java.util.Iterator<com.tradeflux.grpc.PriceResponse> streamPriceUpdates(
+    public java.util.Iterator<com.tradeflux.grpc.PriceResponse> streamAvgPrice(
         com.tradeflux.grpc.CoinRequest request) {
       return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
-          getChannel(), getStreamPriceUpdatesMethod(), getCallOptions(), request);
+          getChannel(), getStreamAvgPriceMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.tradeflux.grpc.StreamNBBOResponse streamNBBO(com.tradeflux.grpc.CoinRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getStreamNBBOMethod(), getCallOptions(), request);
     }
   }
 
@@ -407,12 +414,20 @@ public final class MarketDataServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetHistoricalOHLCDataMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.tradeflux.grpc.StreamNBBOResponse> streamNBBO(
+        com.tradeflux.grpc.CoinRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getStreamNBBOMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_AVAILABLE_COINS = 0;
   private static final int METHODID_GET_CURRENT_PRICE = 1;
   private static final int METHODID_GET_HISTORICAL_OHLCDATA = 2;
-  private static final int METHODID_STREAM_PRICE_UPDATES = 3;
+  private static final int METHODID_STREAM_AVG_PRICE = 3;
   private static final int METHODID_STREAM_NBBO = 4;
 
   private static final class MethodHandlers<Req, Resp> implements
@@ -444,9 +459,13 @@ public final class MarketDataServiceGrpc {
           serviceImpl.getHistoricalOHLCData((com.tradeflux.grpc.HistoricalOHLCRequest) request,
               (io.grpc.stub.StreamObserver<com.tradeflux.grpc.HistoricalOHLCResponse>) responseObserver);
           break;
-        case METHODID_STREAM_PRICE_UPDATES:
-          serviceImpl.streamPriceUpdates((com.tradeflux.grpc.CoinRequest) request,
+        case METHODID_STREAM_AVG_PRICE:
+          serviceImpl.streamAvgPrice((com.tradeflux.grpc.CoinRequest) request,
               (io.grpc.stub.StreamObserver<com.tradeflux.grpc.PriceResponse>) responseObserver);
+          break;
+        case METHODID_STREAM_NBBO:
+          serviceImpl.streamNBBO((com.tradeflux.grpc.CoinRequest) request,
+              (io.grpc.stub.StreamObserver<com.tradeflux.grpc.StreamNBBOResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -458,9 +477,6 @@ public final class MarketDataServiceGrpc {
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_STREAM_NBBO:
-          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.streamNBBO(
-              (io.grpc.stub.StreamObserver<com.tradeflux.grpc.StreamNBBOResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -491,15 +507,15 @@ public final class MarketDataServiceGrpc {
               com.tradeflux.grpc.HistoricalOHLCResponse>(
                 service, METHODID_GET_HISTORICAL_OHLCDATA)))
         .addMethod(
-          getStreamPriceUpdatesMethod(),
+          getStreamAvgPriceMethod(),
           io.grpc.stub.ServerCalls.asyncServerStreamingCall(
             new MethodHandlers<
               com.tradeflux.grpc.CoinRequest,
               com.tradeflux.grpc.PriceResponse>(
-                service, METHODID_STREAM_PRICE_UPDATES)))
+                service, METHODID_STREAM_AVG_PRICE)))
         .addMethod(
           getStreamNBBOMethod(),
-          io.grpc.stub.ServerCalls.asyncClientStreamingCall(
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
             new MethodHandlers<
               com.tradeflux.grpc.CoinRequest,
               com.tradeflux.grpc.StreamNBBOResponse>(
@@ -555,7 +571,7 @@ public final class MarketDataServiceGrpc {
               .addMethod(getGetAvailableCoinsMethod())
               .addMethod(getGetCurrentPriceMethod())
               .addMethod(getGetHistoricalOHLCDataMethod())
-              .addMethod(getStreamPriceUpdatesMethod())
+              .addMethod(getStreamAvgPriceMethod())
               .addMethod(getStreamNBBOMethod())
               .build();
         }

@@ -110,16 +110,24 @@ public class BinanceConnector {
         return webSocket;
     }
 
-    public <T> WebSocket connectToWSStreamGRPC(String symbol, String streamType, StreamObserver<T> responseObserver, Class<T> responseType) throws IOException {
-        String url = getDirectWebSocketUrl("/ws", symbol + "@" + streamType);
+    public <T> WebSocket connectToMultipleWSStreams(List<String> symbols, String streamType,
+                                                    StreamObserver<T> responseObserver, Class<T> responseType) throws IOException {
+        String url = getDirectWebSocketUrl("/ws", "");
         logger.info("Establishing WebSocket connection to: " + url);
 
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
-        WebSocketListener listener = new BinanceWebsocketListener<>(responseObserver, responseType, symbol + "@" + streamType);
-        WebSocket webSocket = httpClient.newWebSocket(request, listener);
-        return webSocket;
+        String[] symbolsArray = symbols.toArray(new String[0]);
+
+        WebSocketListener listener = new BinanceWebsocketListener<>(
+                streamType,
+                responseObserver,
+                responseType,
+                symbolsArray
+        );
+
+        return httpClient.newWebSocket(request, listener);
     }
 }

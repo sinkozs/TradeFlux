@@ -139,32 +139,12 @@ public class MarketDataService {
             return;
         }
 
-        List<WebSocket> connections = new ArrayList<>();
-
-        for (String symbol : symbols) {
-            try {
-                logger.info("Subscribing for price updates, symbol: " + symbol);
-                WebSocket webSocket = connector.connectToWSStreamGRPC(symbol, "bookTicker", responseObserver, responseType);
-                connections.add(webSocket);
-            } catch (IOException e) {
-                logger.warning("Failed to connect for symbol: " + symbol);
-            }
+        try {
+            logger.info("Subscribing for price updates, symbols: " + symbols);
+            WebSocket webSocket = connector.connectToMultipleWSStreams(symbols, "avgPrice", responseObserver, responseType);
+        } catch (IOException e) {
+            logger.warning("Failed to connect for symbols: " + symbols);
         }
-
-        symbolConnections.put(responseObserver, connections);
-    }
-
-    // Method to close all active connections
-    public void closeAllConnections() {
-        logger.info("Closing all WebSocket connections");
-        for (Map.Entry<StreamObserver<?>, List<WebSocket>> entry : symbolConnections.entrySet()) {
-            List<WebSocket> connections = entry.getValue();
-            for (WebSocket webSocket : connections) {
-                webSocket.close(1000, "Server shutting down");
-            }
-        }
-        symbolConnections.clear();
-        logger.info("All WebSocket connections have been closed");
     }
 
 

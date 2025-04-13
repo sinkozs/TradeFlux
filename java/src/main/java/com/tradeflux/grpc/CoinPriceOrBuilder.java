@@ -46,4 +46,15 @@ public interface CoinPriceOrBuilder extends
    * @return The lastTradeTime.
    */
   long getLastTradeTime();
+
+  /**
+   * <code>int64 event_time = 5;</code>
+   * @return Whether the eventTime field is set.
+   */
+  boolean hasEventTime();
+  /**
+   * <code>int64 event_time = 5;</code>
+   * @return The eventTime.
+   */
+  long getEventTime();
 }

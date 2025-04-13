@@ -59,12 +59,6 @@ public class MarketDataServerImpl implements MarketDataServer {
     }
 
     public void stop() throws InterruptedException {
-        logger.info("Closing all connections");
-        if (service instanceof MarketDataService) {
-            ((MarketDataService) service).closeAllConnections();
-        }
-
-        // Then shutdown the gRPC server
         if (server != null) {
             server.shutdown().awaitTermination(30, TimeUnit.SECONDS);
         }

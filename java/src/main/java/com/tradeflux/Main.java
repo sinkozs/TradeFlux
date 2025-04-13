@@ -11,9 +11,6 @@ public class Main {
     public static void main(String[] args) {
         logger.info("Starting TradeFlux app...");
         try {
-
-            // WebSocket bookTickerSocket = connector.connectToWSStream("btcusdt", "bookTicker");
-
             MarketDataProcessorGrpc binanceService = new MarketDataProcessorGrpc(service);
             MarketDataServer server = new MarketDataServerImpl(8080, binanceService);
 

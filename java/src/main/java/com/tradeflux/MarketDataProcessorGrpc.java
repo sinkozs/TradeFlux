@@ -155,15 +155,25 @@ public class MarketDataProcessorGrpc extends MarketDataServiceImplBase {
 
 
     @Override
-    public void streamPriceUpdates(CoinRequest request, StreamObserver<PriceResponse> responseObserver) {
+    public void streamAvgPrice(CoinRequest request, StreamObserver<PriceResponse> responseObserver) {
         try {
-            logger.info("Received request for stream current price");
-
-            MarketDataService.CoinRequestToAPIParamsBuilder builder = new MarketDataService.CoinRequestToAPIParamsBuilder(request);
-//            List<String> symbols = new ArrayList<>();
-//            symbols.add("btcusdt");
-            logger.info("request symbol list " + request.getSymbolsList());
+            logger.info("Received request for stream current price for symbols: " + request.getSymbolsList());
             marketDataService.getPriceUpdatesWS(request.getSymbolsList(), responseObserver, PriceResponse.class);
+        } catch (Exception e) {
+            logger.severe("Error in getCurrentPrice: " + e.getMessage());
+            responseObserver.onError(
+                    io.grpc.Status.INTERNAL
+                            .withDescription("Internal server error: " + e.getMessage())
+                            .asRuntimeException()
+            );
+        }
+    }
+
+    @Override
+    public void streamNBBO(CoinRequest request, StreamObserver<StreamNBBOResponse> responseObserver) {
+        try {
+            logger.info("Received request for stream NBBO for symbols: " + request.getSymbolsList());
+            // marketDataService.getPriceUpdatesWS(request.getSymbolsList(), responseObserver, PriceResponse.class);
         } catch (Exception e) {
             logger.severe("Error in getCurrentPrice: " + e.getMessage());
             responseObserver.onError(

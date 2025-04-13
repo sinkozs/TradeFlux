@@ -90,11 +90,12 @@ public final class Tradeflux {
       "pes\022!\n\031is_margin_trading_allowed\030\005 \001(\010\"6" +
       "\n\020CoinListResponse\022\"\n\005coins\030\001 \003(\0132\023.trad" +
       "eflux.CoinInfo\"\036\n\013CoinRequest\022\017\n\007symbols" +
-      "\030\001 \003(\t\"\246\001\n\tCoinPrice\022\016\n\006symbol\030\001 \001(\t\022\r\n\005" +
+      "\030\001 \003(\t\"\316\001\n\tCoinPrice\022\016\n\006symbol\030\001 \001(\t\022\r\n\005" +
       "price\030\002 \001(\001\022(\n\033average_price_interval_mi" +
       "ns\030\003 \001(\005H\000\210\001\001\022\034\n\017last_trade_time\030\004 \001(\003H\001" +
-      "\210\001\001B\036\n\034_average_price_interval_minsB\022\n\020_" +
-      "last_trade_time\":\n\rPriceResponse\022)\n\013coin" +
+      "\210\001\001\022\027\n\nevent_time\030\005 \001(\003H\002\210\001\001B\036\n\034_average" +
+      "_price_interval_minsB\022\n\020_last_trade_time" +
+      "B\r\n\013_event_time\":\n\rPriceResponse\022)\n\013coin" +
       "_prices\030\001 \003(\0132\024.tradeflux.CoinPrice\"\334\001\n\025" +
       "HistoricalOHLCRequest\022\016\n\006symbol\030\001 \001(\t\022%\n" +
       "\010interval\030\002 \001(\0162\023.tradeflux.Interval\022\027\n\n" +
@@ -127,18 +128,18 @@ public final class Tradeflux {
       "derTypes\022\026\n\022ORDER_TYPE_UNKNOWN\020\000\022\t\n\005LIMI" +
       "T\020\001\022\n\n\006MARKET\020\002\022\r\n\tSTOP_LOSS\020\003\022\023\n\017STOP_L" +
       "OSS_LIMIT\020\004\022\017\n\013TAKE_PROFIT\020\005\022\025\n\021TAKE_PRO" +
-      "FIT_LIMIT\020\006\022\017\n\013LIMIT_MAKER\020\0072\234\003\n\021MarketD" +
+      "FIT_LIMIT\020\006\022\017\n\013LIMIT_MAKER\020\0072\226\003\n\021MarketD" +
       "ataService\022K\n\021GetAvailableCoins\022\027.tradef" +
       "lux.EmptyRequest\032\033.tradeflux.CoinListRes" +
       "ponse\"\000\022E\n\017GetCurrentPrice\022\026.tradeflux.C" +
       "oinRequest\032\030.tradeflux.PriceResponse\"\000\022^" +
       "\n\025GetHistoricalOHLCData\022 .tradeflux.Hist" +
       "oricalOHLCRequest\032!.tradeflux.Historical" +
-      "OHLCResponse\"\000\022J\n\022StreamPriceUpdates\022\026.t" +
-      "radeflux.CoinRequest\032\030.tradeflux.PriceRe" +
-      "sponse\"\0000\001\022G\n\nStreamNBBO\022\026.tradeflux.Coi" +
-      "nRequest\032\035.tradeflux.StreamNBBOResponse\"" +
-      "\000(\001B\026\n\022com.tradeflux.grpcP\001b\006proto3"
+      "OHLCResponse\"\000\022F\n\016StreamAvgPrice\022\026.trade" +
+      "flux.CoinRequest\032\030.tradeflux.PriceRespon" +
+      "se\"\0000\001\022E\n\nStreamNBBO\022\026.tradeflux.CoinReq" +
+      "uest\032\035.tradeflux.StreamNBBOResponse\"\000B\026\n" +
+      "\022com.tradeflux.grpcP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -173,7 +174,7 @@ public final class Tradeflux {
     internal_static_tradeflux_CoinPrice_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tradeflux_CoinPrice_descriptor,
-        new java.lang.String[] { "Symbol", "Price", "AveragePriceIntervalMins", "LastTradeTime", "AveragePriceIntervalMins", "LastTradeTime", });
+        new java.lang.String[] { "Symbol", "Price", "AveragePriceIntervalMins", "LastTradeTime", "EventTime", "AveragePriceIntervalMins", "LastTradeTime", "EventTime", });
     internal_static_tradeflux_PriceResponse_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_tradeflux_PriceResponse_fieldAccessorTable = new

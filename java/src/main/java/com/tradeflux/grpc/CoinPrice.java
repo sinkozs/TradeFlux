@@ -71,6 +71,11 @@ private static final long serialVersionUID = 0L;
             lastTradeTime_ = input.readInt64();
             break;
           }
+          case 40: {
+            bitField0_ |= 0x00000004;
+            eventTime_ = input.readInt64();
+            break;
+          }
           default: {
             if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
@@ -191,6 +196,25 @@ private static final long serialVersionUID = 0L;
     return lastTradeTime_;
   }
 
+  public static final int EVENT_TIME_FIELD_NUMBER = 5;
+  private long eventTime_;
+  /**
+   * <code>int64 event_time = 5;</code>
+   * @return Whether the eventTime field is set.
+   */
+  @java.lang.Override
+  public boolean hasEventTime() {
+    return ((bitField0_ & 0x00000004) != 0);
+  }
+  /**
+   * <code>int64 event_time = 5;</code>
+   * @return The eventTime.
+   */
+  @java.lang.Override
+  public long getEventTime() {
+    return eventTime_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -217,6 +241,9 @@ private static final long serialVersionUID = 0L;
     if (((bitField0_ & 0x00000002) != 0)) {
       output.writeInt64(4, lastTradeTime_);
     }
+    if (((bitField0_ & 0x00000004) != 0)) {
+      output.writeInt64(5, eventTime_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -240,6 +267,10 @@ private static final long serialVersionUID = 0L;
     if (((bitField0_ & 0x00000002) != 0)) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(4, lastTradeTime_);
+    }
+    if (((bitField0_ & 0x00000004) != 0)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt64Size(5, eventTime_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -271,6 +302,11 @@ private static final long serialVersionUID = 0L;
       if (getLastTradeTime()
           != other.getLastTradeTime()) return false;
     }
+    if (hasEventTime() != other.hasEventTime()) return false;
+    if (hasEventTime()) {
+      if (getEventTime()
+          != other.getEventTime()) return false;
+    }
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -295,6 +331,11 @@ private static final long serialVersionUID = 0L;
       hash = (37 * hash) + LAST_TRADE_TIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getLastTradeTime());
+    }
+    if (hasEventTime()) {
+      hash = (37 * hash) + EVENT_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getEventTime());
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -437,6 +478,8 @@ private static final long serialVersionUID = 0L;
       bitField0_ = (bitField0_ & ~0x00000001);
       lastTradeTime_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000002);
+      eventTime_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00000004);
       return this;
     }
 
@@ -474,6 +517,10 @@ private static final long serialVersionUID = 0L;
       if (((from_bitField0_ & 0x00000002) != 0)) {
         result.lastTradeTime_ = lastTradeTime_;
         to_bitField0_ |= 0x00000002;
+      }
+      if (((from_bitField0_ & 0x00000004) != 0)) {
+        result.eventTime_ = eventTime_;
+        to_bitField0_ |= 0x00000004;
       }
       result.bitField0_ = to_bitField0_;
       onBuilt();
@@ -536,6 +583,9 @@ private static final long serialVersionUID = 0L;
       }
       if (other.hasLastTradeTime()) {
         setLastTradeTime(other.getLastTradeTime());
+      }
+      if (other.hasEventTime()) {
+        setEventTime(other.getEventTime());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -748,6 +798,45 @@ private static final long serialVersionUID = 0L;
     public Builder clearLastTradeTime() {
       bitField0_ = (bitField0_ & ~0x00000002);
       lastTradeTime_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    private long eventTime_ ;
+    /**
+     * <code>int64 event_time = 5;</code>
+     * @return Whether the eventTime field is set.
+     */
+    @java.lang.Override
+    public boolean hasEventTime() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>int64 event_time = 5;</code>
+     * @return The eventTime.
+     */
+    @java.lang.Override
+    public long getEventTime() {
+      return eventTime_;
+    }
+    /**
+     * <code>int64 event_time = 5;</code>
+     * @param value The eventTime to set.
+     * @return This builder for chaining.
+     */
+    public Builder setEventTime(long value) {
+      bitField0_ |= 0x00000004;
+      eventTime_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int64 event_time = 5;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearEventTime() {
+      bitField0_ = (bitField0_ & ~0x00000004);
+      eventTime_ = 0L;
       onChanged();
       return this;
     }
