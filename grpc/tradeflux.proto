@@ -13,9 +13,9 @@ service MarketDataService {
 
     rpc GetHistoricalOHLCData (HistoricalOHLCRequest) returns (HistoricalOHLCResponse) {}
 
-    rpc StreamPriceUpdates (CoinRequest) returns (stream PriceResponse) {}
+    rpc StreamAvgPrice (CoinRequest) returns (stream PriceResponse) {}
 
-    rpc StreamNBBO (stream CoinRequest) returns (StreamNBBOResponse) {}
+    rpc StreamNBBO (CoinRequest) returns (StreamNBBOResponse) {}
 
 }
 
@@ -79,6 +79,7 @@ message CoinPrice {
     double price = 2;
     optional int32 average_price_interval_mins = 3;
     optional int64 last_trade_time = 4;
+    optional int64 event_time = 5;
 }
 
 message PriceResponse {
