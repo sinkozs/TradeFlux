@@ -15,7 +15,7 @@ service MarketDataService {
 
     rpc StreamAvgPrice (CoinRequest) returns (stream PriceResponse) {}
 
-    rpc StreamNBBO (CoinRequest) returns (StreamNBBOResponse) {}
+    rpc StreamNBBO (CoinRequest) returns (stream StreamNBBOResponse) {}
 
 }
 
@@ -124,5 +124,5 @@ message NBBO {
     double ask_quantity = 5;
 }
 message StreamNBBOResponse {
-    repeated NBBO nbbo_list = 1;
+    NBBO nbbo = 1;
 }

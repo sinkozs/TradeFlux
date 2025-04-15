@@ -9,8 +9,7 @@ import java.io.IOException;
 import com.tradeflux.grpc.CoinRequest;
 import com.tradeflux.grpc.HistoricalOHLCRequest;
 import com.tradeflux.grpc.PriceResponse;
-import com.tradeflux.util.IntervalConverter.*;
-import io.grpc.stub.ClientResponseObserver;
+import com.tradeflux.grpc.StreamNBBOResponse;
 import io.grpc.stub.StreamObserver;
 import okhttp3.WebSocket;
 
@@ -133,15 +132,22 @@ public class MarketDataService {
         return response;
     }
 
-    public <T> void getPriceUpdatesWS(List<String> symbols, StreamObserver<T> responseObserver, Class<T> responseType) {
+    public <T> void connectToWSStreams(List<String> symbols, StreamObserver<T> responseObserver, Class<T> responseType) {
         if (symbols == null || symbols.isEmpty()) {
             logger.warning("No symbols provided for price updates");
             return;
         }
 
         try {
-            logger.info("Subscribing for price updates, symbols: " + symbols);
-            WebSocket webSocket = connector.connectToMultipleWSStreams(symbols, "avgPrice", responseObserver, responseType);
+            if (responseType.equals(PriceResponse.class)) {
+                logger.info("Subscribing for price updates, symbols: " + symbols);
+                connector.connectToMultipleWSStreams(symbols, "avgPrice", responseObserver, responseType);
+            } else if (responseType.equals(StreamNBBOResponse.class)) {
+                logger.info("Subscribing for NBBO stream, symbols: " + symbols);
+                connector.connectToMultipleWSStreams(symbols, "bookTicker", responseObserver, responseType);
+            } else {
+                logger.warning("Invalid response type: " + responseType);
+            }
         } catch (IOException e) {
             logger.warning("Failed to connect for symbols: " + symbols);
         }

@@ -110,7 +110,7 @@ public class BinanceConnector {
         return webSocket;
     }
 
-    public <T> WebSocket connectToMultipleWSStreams(List<String> symbols, String streamType,
+    public <T> void connectToMultipleWSStreams(List<String> symbols, String streamType,
                                                     StreamObserver<T> responseObserver, Class<T> responseType) throws IOException {
         String url = getDirectWebSocketUrl("/ws", "");
         logger.info("Establishing WebSocket connection to: " + url);
@@ -128,6 +128,6 @@ public class BinanceConnector {
                 symbolsArray
         );
 
-        return httpClient.newWebSocket(request, listener);
+        httpClient.newWebSocket(request, listener);
     }
 }

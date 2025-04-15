@@ -6,7 +6,6 @@ import io.grpc.stub.StreamObserver;
 
 import com.tradeflux.util.OrderTypeConverter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -158,7 +157,7 @@ public class MarketDataProcessorGrpc extends MarketDataServiceImplBase {
     public void streamAvgPrice(CoinRequest request, StreamObserver<PriceResponse> responseObserver) {
         try {
             logger.info("Received request for stream current price for symbols: " + request.getSymbolsList());
-            marketDataService.getPriceUpdatesWS(request.getSymbolsList(), responseObserver, PriceResponse.class);
+            marketDataService.connectToWSStreams(request.getSymbolsList(), responseObserver, PriceResponse.class);
         } catch (Exception e) {
             logger.severe("Error in getCurrentPrice: " + e.getMessage());
             responseObserver.onError(
@@ -173,7 +172,7 @@ public class MarketDataProcessorGrpc extends MarketDataServiceImplBase {
     public void streamNBBO(CoinRequest request, StreamObserver<StreamNBBOResponse> responseObserver) {
         try {
             logger.info("Received request for stream NBBO for symbols: " + request.getSymbolsList());
-            // marketDataService.getPriceUpdatesWS(request.getSymbolsList(), responseObserver, PriceResponse.class);
+            marketDataService.connectToWSStreams(request.getSymbolsList(), responseObserver, StreamNBBOResponse.class);
         } catch (Exception e) {
             logger.severe("Error in getCurrentPrice: " + e.getMessage());
             responseObserver.onError(

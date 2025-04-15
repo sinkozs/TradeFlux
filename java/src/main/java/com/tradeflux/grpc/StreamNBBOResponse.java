@@ -16,7 +16,6 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private StreamNBBOResponse() {
-    nbboList_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -39,7 +38,6 @@ private static final long serialVersionUID = 0L;
     if (extensionRegistry == null) {
       throw new java.lang.NullPointerException();
     }
-    int mutable_bitField0_ = 0;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -51,12 +49,16 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           case 10: {
-            if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-              nbboList_ = new java.util.ArrayList<com.tradeflux.grpc.NBBO>();
-              mutable_bitField0_ |= 0x00000001;
+            com.tradeflux.grpc.NBBO.Builder subBuilder = null;
+            if (nbbo_ != null) {
+              subBuilder = nbbo_.toBuilder();
             }
-            nbboList_.add(
-                input.readMessage(com.tradeflux.grpc.NBBO.parser(), extensionRegistry));
+            nbbo_ = input.readMessage(com.tradeflux.grpc.NBBO.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(nbbo_);
+              nbbo_ = subBuilder.buildPartial();
+            }
+
             break;
           }
           default: {
@@ -74,9 +76,6 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000001) != 0)) {
-        nbboList_ = java.util.Collections.unmodifiableList(nbboList_);
-      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -94,44 +93,30 @@ private static final long serialVersionUID = 0L;
             com.tradeflux.grpc.StreamNBBOResponse.class, com.tradeflux.grpc.StreamNBBOResponse.Builder.class);
   }
 
-  public static final int NBBO_LIST_FIELD_NUMBER = 1;
-  private java.util.List<com.tradeflux.grpc.NBBO> nbboList_;
+  public static final int NBBO_FIELD_NUMBER = 1;
+  private com.tradeflux.grpc.NBBO nbbo_;
   /**
-   * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+   * <code>.tradeflux.NBBO nbbo = 1;</code>
+   * @return Whether the nbbo field is set.
    */
   @java.lang.Override
-  public java.util.List<com.tradeflux.grpc.NBBO> getNbboListList() {
-    return nbboList_;
+  public boolean hasNbbo() {
+    return nbbo_ != null;
   }
   /**
-   * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+   * <code>.tradeflux.NBBO nbbo = 1;</code>
+   * @return The nbbo.
    */
   @java.lang.Override
-  public java.util.List<? extends com.tradeflux.grpc.NBBOOrBuilder> 
-      getNbboListOrBuilderList() {
-    return nbboList_;
+  public com.tradeflux.grpc.NBBO getNbbo() {
+    return nbbo_ == null ? com.tradeflux.grpc.NBBO.getDefaultInstance() : nbbo_;
   }
   /**
-   * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+   * <code>.tradeflux.NBBO nbbo = 1;</code>
    */
   @java.lang.Override
-  public int getNbboListCount() {
-    return nbboList_.size();
-  }
-  /**
-   * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-   */
-  @java.lang.Override
-  public com.tradeflux.grpc.NBBO getNbboList(int index) {
-    return nbboList_.get(index);
-  }
-  /**
-   * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-   */
-  @java.lang.Override
-  public com.tradeflux.grpc.NBBOOrBuilder getNbboListOrBuilder(
-      int index) {
-    return nbboList_.get(index);
+  public com.tradeflux.grpc.NBBOOrBuilder getNbboOrBuilder() {
+    return getNbbo();
   }
 
   private byte memoizedIsInitialized = -1;
@@ -148,8 +133,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    for (int i = 0; i < nbboList_.size(); i++) {
-      output.writeMessage(1, nbboList_.get(i));
+    if (nbbo_ != null) {
+      output.writeMessage(1, getNbbo());
     }
     unknownFields.writeTo(output);
   }
@@ -160,9 +145,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    for (int i = 0; i < nbboList_.size(); i++) {
+    if (nbbo_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, nbboList_.get(i));
+        .computeMessageSize(1, getNbbo());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -179,8 +164,11 @@ private static final long serialVersionUID = 0L;
     }
     com.tradeflux.grpc.StreamNBBOResponse other = (com.tradeflux.grpc.StreamNBBOResponse) obj;
 
-    if (!getNbboListList()
-        .equals(other.getNbboListList())) return false;
+    if (hasNbbo() != other.hasNbbo()) return false;
+    if (hasNbbo()) {
+      if (!getNbbo()
+          .equals(other.getNbbo())) return false;
+    }
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -192,9 +180,9 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    if (getNbboListCount() > 0) {
-      hash = (37 * hash) + NBBO_LIST_FIELD_NUMBER;
-      hash = (53 * hash) + getNbboListList().hashCode();
+    if (hasNbbo()) {
+      hash = (37 * hash) + NBBO_FIELD_NUMBER;
+      hash = (53 * hash) + getNbbo().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -324,17 +312,16 @@ private static final long serialVersionUID = 0L;
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
-        getNbboListFieldBuilder();
       }
     }
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      if (nbboListBuilder_ == null) {
-        nbboList_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
+      if (nbboBuilder_ == null) {
+        nbbo_ = null;
       } else {
-        nbboListBuilder_.clear();
+        nbbo_ = null;
+        nbboBuilder_ = null;
       }
       return this;
     }
@@ -362,15 +349,10 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.tradeflux.grpc.StreamNBBOResponse buildPartial() {
       com.tradeflux.grpc.StreamNBBOResponse result = new com.tradeflux.grpc.StreamNBBOResponse(this);
-      int from_bitField0_ = bitField0_;
-      if (nbboListBuilder_ == null) {
-        if (((bitField0_ & 0x00000001) != 0)) {
-          nbboList_ = java.util.Collections.unmodifiableList(nbboList_);
-          bitField0_ = (bitField0_ & ~0x00000001);
-        }
-        result.nbboList_ = nbboList_;
+      if (nbboBuilder_ == null) {
+        result.nbbo_ = nbbo_;
       } else {
-        result.nbboList_ = nbboListBuilder_.build();
+        result.nbbo_ = nbboBuilder_.build();
       }
       onBuilt();
       return result;
@@ -420,31 +402,8 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(com.tradeflux.grpc.StreamNBBOResponse other) {
       if (other == com.tradeflux.grpc.StreamNBBOResponse.getDefaultInstance()) return this;
-      if (nbboListBuilder_ == null) {
-        if (!other.nbboList_.isEmpty()) {
-          if (nbboList_.isEmpty()) {
-            nbboList_ = other.nbboList_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensureNbboListIsMutable();
-            nbboList_.addAll(other.nbboList_);
-          }
-          onChanged();
-        }
-      } else {
-        if (!other.nbboList_.isEmpty()) {
-          if (nbboListBuilder_.isEmpty()) {
-            nbboListBuilder_.dispose();
-            nbboListBuilder_ = null;
-            nbboList_ = other.nbboList_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-            nbboListBuilder_ = 
-              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                 getNbboListFieldBuilder() : null;
-          } else {
-            nbboListBuilder_.addAllMessages(other.nbboList_);
-          }
-        }
+      if (other.hasNbbo()) {
+        mergeNbbo(other.getNbbo());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -474,246 +433,124 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
-    private int bitField0_;
 
-    private java.util.List<com.tradeflux.grpc.NBBO> nbboList_ =
-      java.util.Collections.emptyList();
-    private void ensureNbboListIsMutable() {
-      if (!((bitField0_ & 0x00000001) != 0)) {
-        nbboList_ = new java.util.ArrayList<com.tradeflux.grpc.NBBO>(nbboList_);
-        bitField0_ |= 0x00000001;
-       }
-    }
-
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        com.tradeflux.grpc.NBBO, com.tradeflux.grpc.NBBO.Builder, com.tradeflux.grpc.NBBOOrBuilder> nbboListBuilder_;
-
+    private com.tradeflux.grpc.NBBO nbbo_;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.tradeflux.grpc.NBBO, com.tradeflux.grpc.NBBO.Builder, com.tradeflux.grpc.NBBOOrBuilder> nbboBuilder_;
     /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+     * <code>.tradeflux.NBBO nbbo = 1;</code>
+     * @return Whether the nbbo field is set.
      */
-    public java.util.List<com.tradeflux.grpc.NBBO> getNbboListList() {
-      if (nbboListBuilder_ == null) {
-        return java.util.Collections.unmodifiableList(nbboList_);
+    public boolean hasNbbo() {
+      return nbboBuilder_ != null || nbbo_ != null;
+    }
+    /**
+     * <code>.tradeflux.NBBO nbbo = 1;</code>
+     * @return The nbbo.
+     */
+    public com.tradeflux.grpc.NBBO getNbbo() {
+      if (nbboBuilder_ == null) {
+        return nbbo_ == null ? com.tradeflux.grpc.NBBO.getDefaultInstance() : nbbo_;
       } else {
-        return nbboListBuilder_.getMessageList();
+        return nbboBuilder_.getMessage();
       }
     }
     /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+     * <code>.tradeflux.NBBO nbbo = 1;</code>
      */
-    public int getNbboListCount() {
-      if (nbboListBuilder_ == null) {
-        return nbboList_.size();
-      } else {
-        return nbboListBuilder_.getCount();
-      }
-    }
-    /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-     */
-    public com.tradeflux.grpc.NBBO getNbboList(int index) {
-      if (nbboListBuilder_ == null) {
-        return nbboList_.get(index);
-      } else {
-        return nbboListBuilder_.getMessage(index);
-      }
-    }
-    /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-     */
-    public Builder setNbboList(
-        int index, com.tradeflux.grpc.NBBO value) {
-      if (nbboListBuilder_ == null) {
+    public Builder setNbbo(com.tradeflux.grpc.NBBO value) {
+      if (nbboBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        ensureNbboListIsMutable();
-        nbboList_.set(index, value);
+        nbbo_ = value;
         onChanged();
       } else {
-        nbboListBuilder_.setMessage(index, value);
+        nbboBuilder_.setMessage(value);
       }
+
       return this;
     }
     /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+     * <code>.tradeflux.NBBO nbbo = 1;</code>
      */
-    public Builder setNbboList(
-        int index, com.tradeflux.grpc.NBBO.Builder builderForValue) {
-      if (nbboListBuilder_ == null) {
-        ensureNbboListIsMutable();
-        nbboList_.set(index, builderForValue.build());
-        onChanged();
-      } else {
-        nbboListBuilder_.setMessage(index, builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-     */
-    public Builder addNbboList(com.tradeflux.grpc.NBBO value) {
-      if (nbboListBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureNbboListIsMutable();
-        nbboList_.add(value);
-        onChanged();
-      } else {
-        nbboListBuilder_.addMessage(value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-     */
-    public Builder addNbboList(
-        int index, com.tradeflux.grpc.NBBO value) {
-      if (nbboListBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureNbboListIsMutable();
-        nbboList_.add(index, value);
-        onChanged();
-      } else {
-        nbboListBuilder_.addMessage(index, value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-     */
-    public Builder addNbboList(
+    public Builder setNbbo(
         com.tradeflux.grpc.NBBO.Builder builderForValue) {
-      if (nbboListBuilder_ == null) {
-        ensureNbboListIsMutable();
-        nbboList_.add(builderForValue.build());
+      if (nbboBuilder_ == null) {
+        nbbo_ = builderForValue.build();
         onChanged();
       } else {
-        nbboListBuilder_.addMessage(builderForValue.build());
+        nbboBuilder_.setMessage(builderForValue.build());
       }
+
       return this;
     }
     /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+     * <code>.tradeflux.NBBO nbbo = 1;</code>
      */
-    public Builder addNbboList(
-        int index, com.tradeflux.grpc.NBBO.Builder builderForValue) {
-      if (nbboListBuilder_ == null) {
-        ensureNbboListIsMutable();
-        nbboList_.add(index, builderForValue.build());
+    public Builder mergeNbbo(com.tradeflux.grpc.NBBO value) {
+      if (nbboBuilder_ == null) {
+        if (nbbo_ != null) {
+          nbbo_ =
+            com.tradeflux.grpc.NBBO.newBuilder(nbbo_).mergeFrom(value).buildPartial();
+        } else {
+          nbbo_ = value;
+        }
         onChanged();
       } else {
-        nbboListBuilder_.addMessage(index, builderForValue.build());
+        nbboBuilder_.mergeFrom(value);
       }
+
       return this;
     }
     /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+     * <code>.tradeflux.NBBO nbbo = 1;</code>
      */
-    public Builder addAllNbboList(
-        java.lang.Iterable<? extends com.tradeflux.grpc.NBBO> values) {
-      if (nbboListBuilder_ == null) {
-        ensureNbboListIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, nbboList_);
+    public Builder clearNbbo() {
+      if (nbboBuilder_ == null) {
+        nbbo_ = null;
         onChanged();
       } else {
-        nbboListBuilder_.addAllMessages(values);
+        nbbo_ = null;
+        nbboBuilder_ = null;
       }
+
       return this;
     }
     /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+     * <code>.tradeflux.NBBO nbbo = 1;</code>
      */
-    public Builder clearNbboList() {
-      if (nbboListBuilder_ == null) {
-        nbboList_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
-        onChanged();
+    public com.tradeflux.grpc.NBBO.Builder getNbboBuilder() {
+      
+      onChanged();
+      return getNbboFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.tradeflux.NBBO nbbo = 1;</code>
+     */
+    public com.tradeflux.grpc.NBBOOrBuilder getNbboOrBuilder() {
+      if (nbboBuilder_ != null) {
+        return nbboBuilder_.getMessageOrBuilder();
       } else {
-        nbboListBuilder_.clear();
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-     */
-    public Builder removeNbboList(int index) {
-      if (nbboListBuilder_ == null) {
-        ensureNbboListIsMutable();
-        nbboList_.remove(index);
-        onChanged();
-      } else {
-        nbboListBuilder_.remove(index);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-     */
-    public com.tradeflux.grpc.NBBO.Builder getNbboListBuilder(
-        int index) {
-      return getNbboListFieldBuilder().getBuilder(index);
-    }
-    /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-     */
-    public com.tradeflux.grpc.NBBOOrBuilder getNbboListOrBuilder(
-        int index) {
-      if (nbboListBuilder_ == null) {
-        return nbboList_.get(index);  } else {
-        return nbboListBuilder_.getMessageOrBuilder(index);
+        return nbbo_ == null ?
+            com.tradeflux.grpc.NBBO.getDefaultInstance() : nbbo_;
       }
     }
     /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+     * <code>.tradeflux.NBBO nbbo = 1;</code>
      */
-    public java.util.List<? extends com.tradeflux.grpc.NBBOOrBuilder> 
-         getNbboListOrBuilderList() {
-      if (nbboListBuilder_ != null) {
-        return nbboListBuilder_.getMessageOrBuilderList();
-      } else {
-        return java.util.Collections.unmodifiableList(nbboList_);
-      }
-    }
-    /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-     */
-    public com.tradeflux.grpc.NBBO.Builder addNbboListBuilder() {
-      return getNbboListFieldBuilder().addBuilder(
-          com.tradeflux.grpc.NBBO.getDefaultInstance());
-    }
-    /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-     */
-    public com.tradeflux.grpc.NBBO.Builder addNbboListBuilder(
-        int index) {
-      return getNbboListFieldBuilder().addBuilder(
-          index, com.tradeflux.grpc.NBBO.getDefaultInstance());
-    }
-    /**
-     * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-     */
-    public java.util.List<com.tradeflux.grpc.NBBO.Builder> 
-         getNbboListBuilderList() {
-      return getNbboListFieldBuilder().getBuilderList();
-    }
-    private com.google.protobuf.RepeatedFieldBuilderV3<
+    private com.google.protobuf.SingleFieldBuilderV3<
         com.tradeflux.grpc.NBBO, com.tradeflux.grpc.NBBO.Builder, com.tradeflux.grpc.NBBOOrBuilder> 
-        getNbboListFieldBuilder() {
-      if (nbboListBuilder_ == null) {
-        nbboListBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+        getNbboFieldBuilder() {
+      if (nbboBuilder_ == null) {
+        nbboBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             com.tradeflux.grpc.NBBO, com.tradeflux.grpc.NBBO.Builder, com.tradeflux.grpc.NBBOOrBuilder>(
-                nbboList_,
-                ((bitField0_ & 0x00000001) != 0),
+                getNbbo(),
                 getParentForChildren(),
                 isClean());
-        nbboList_ = null;
+        nbbo_ = null;
       }
-      return nbboListBuilder_;
+      return nbboBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

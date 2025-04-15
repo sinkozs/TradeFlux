@@ -8,26 +8,17 @@ public interface StreamNBBOResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+   * <code>.tradeflux.NBBO nbbo = 1;</code>
+   * @return Whether the nbbo field is set.
    */
-  java.util.List<com.tradeflux.grpc.NBBO> 
-      getNbboListList();
+  boolean hasNbbo();
   /**
-   * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+   * <code>.tradeflux.NBBO nbbo = 1;</code>
+   * @return The nbbo.
    */
-  com.tradeflux.grpc.NBBO getNbboList(int index);
+  com.tradeflux.grpc.NBBO getNbbo();
   /**
-   * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
+   * <code>.tradeflux.NBBO nbbo = 1;</code>
    */
-  int getNbboListCount();
-  /**
-   * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-   */
-  java.util.List<? extends com.tradeflux.grpc.NBBOOrBuilder> 
-      getNbboListOrBuilderList();
-  /**
-   * <code>repeated .tradeflux.NBBO nbbo_list = 1;</code>
-   */
-  com.tradeflux.grpc.NBBOOrBuilder getNbboListOrBuilder(
-      int index);
+  com.tradeflux.grpc.NBBOOrBuilder getNbboOrBuilder();
 }

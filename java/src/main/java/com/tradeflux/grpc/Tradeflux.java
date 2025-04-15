@@ -115,31 +115,31 @@ public final class Tradeflux {
       "andles\030\003 \003(\0132\023.tradeflux.OHLCData\"h\n\004NBB" +
       "O\022\016\n\006symbol\030\001 \001(\t\022\021\n\tbid_price\030\002 \001(\001\022\024\n\014" +
       "bid_quantity\030\003 \001(\001\022\021\n\task_price\030\004 \001(\001\022\024\n" +
-      "\014ask_quantity\030\005 \001(\001\"8\n\022StreamNBBORespons" +
-      "e\022\"\n\tnbbo_list\030\001 \003(\0132\017.tradeflux.NBBO*\353\001" +
-      "\n\010Interval\022\024\n\020INTERVAL_UNKNOWN\020\000\022\t\n\005SEC_" +
-      "1\020\001\022\014\n\010MINUTE_1\020\002\022\014\n\010MINUTE_3\020\003\022\014\n\010MINUT" +
-      "E_5\020\004\022\r\n\tMINUTE_15\020\005\022\r\n\tMINUTE_30\020\006\022\n\n\006H" +
-      "OUR_1\020\007\022\n\n\006HOUR_2\020\010\022\n\n\006HOUR_4\020\t\022\n\n\006HOUR_" +
-      "6\020\n\022\n\n\006HOUR_8\020\013\022\013\n\007HOUR_12\020\014\022\t\n\005DAY_1\020\r\022" +
-      "\t\n\005DAY_3\020\016\022\n\n\006WEEK_1\020\017\022\013\n\007MONTH_1\020\020*L\n\021R" +
-      "ateLimitInterval\022\026\n\022RATE_LIMIT_UNKNOWN\020\000" +
-      "\022\n\n\006SECOND\020\001\022\n\n\006MINUTE\020\002\022\007\n\003DAY\020\003*\230\001\n\nOr" +
-      "derTypes\022\026\n\022ORDER_TYPE_UNKNOWN\020\000\022\t\n\005LIMI" +
-      "T\020\001\022\n\n\006MARKET\020\002\022\r\n\tSTOP_LOSS\020\003\022\023\n\017STOP_L" +
-      "OSS_LIMIT\020\004\022\017\n\013TAKE_PROFIT\020\005\022\025\n\021TAKE_PRO" +
-      "FIT_LIMIT\020\006\022\017\n\013LIMIT_MAKER\020\0072\226\003\n\021MarketD" +
-      "ataService\022K\n\021GetAvailableCoins\022\027.tradef" +
-      "lux.EmptyRequest\032\033.tradeflux.CoinListRes" +
-      "ponse\"\000\022E\n\017GetCurrentPrice\022\026.tradeflux.C" +
-      "oinRequest\032\030.tradeflux.PriceResponse\"\000\022^" +
-      "\n\025GetHistoricalOHLCData\022 .tradeflux.Hist" +
-      "oricalOHLCRequest\032!.tradeflux.Historical" +
-      "OHLCResponse\"\000\022F\n\016StreamAvgPrice\022\026.trade" +
-      "flux.CoinRequest\032\030.tradeflux.PriceRespon" +
-      "se\"\0000\001\022E\n\nStreamNBBO\022\026.tradeflux.CoinReq" +
-      "uest\032\035.tradeflux.StreamNBBOResponse\"\000B\026\n" +
-      "\022com.tradeflux.grpcP\001b\006proto3"
+      "\014ask_quantity\030\005 \001(\001\"3\n\022StreamNBBORespons" +
+      "e\022\035\n\004nbbo\030\001 \001(\0132\017.tradeflux.NBBO*\353\001\n\010Int" +
+      "erval\022\024\n\020INTERVAL_UNKNOWN\020\000\022\t\n\005SEC_1\020\001\022\014" +
+      "\n\010MINUTE_1\020\002\022\014\n\010MINUTE_3\020\003\022\014\n\010MINUTE_5\020\004" +
+      "\022\r\n\tMINUTE_15\020\005\022\r\n\tMINUTE_30\020\006\022\n\n\006HOUR_1" +
+      "\020\007\022\n\n\006HOUR_2\020\010\022\n\n\006HOUR_4\020\t\022\n\n\006HOUR_6\020\n\022\n" +
+      "\n\006HOUR_8\020\013\022\013\n\007HOUR_12\020\014\022\t\n\005DAY_1\020\r\022\t\n\005DA" +
+      "Y_3\020\016\022\n\n\006WEEK_1\020\017\022\013\n\007MONTH_1\020\020*L\n\021RateLi" +
+      "mitInterval\022\026\n\022RATE_LIMIT_UNKNOWN\020\000\022\n\n\006S" +
+      "ECOND\020\001\022\n\n\006MINUTE\020\002\022\007\n\003DAY\020\003*\230\001\n\nOrderTy" +
+      "pes\022\026\n\022ORDER_TYPE_UNKNOWN\020\000\022\t\n\005LIMIT\020\001\022\n" +
+      "\n\006MARKET\020\002\022\r\n\tSTOP_LOSS\020\003\022\023\n\017STOP_LOSS_L" +
+      "IMIT\020\004\022\017\n\013TAKE_PROFIT\020\005\022\025\n\021TAKE_PROFIT_L" +
+      "IMIT\020\006\022\017\n\013LIMIT_MAKER\020\0072\230\003\n\021MarketDataSe" +
+      "rvice\022K\n\021GetAvailableCoins\022\027.tradeflux.E" +
+      "mptyRequest\032\033.tradeflux.CoinListResponse" +
+      "\"\000\022E\n\017GetCurrentPrice\022\026.tradeflux.CoinRe" +
+      "quest\032\030.tradeflux.PriceResponse\"\000\022^\n\025Get" +
+      "HistoricalOHLCData\022 .tradeflux.Historica" +
+      "lOHLCRequest\032!.tradeflux.HistoricalOHLCR" +
+      "esponse\"\000\022F\n\016StreamAvgPrice\022\026.tradeflux." +
+      "CoinRequest\032\030.tradeflux.PriceResponse\"\0000" +
+      "\001\022G\n\nStreamNBBO\022\026.tradeflux.CoinRequest\032" +
+      "\035.tradeflux.StreamNBBOResponse\"\0000\001B\026\n\022co" +
+      "m.tradeflux.grpcP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -216,7 +216,7 @@ public final class Tradeflux {
     internal_static_tradeflux_StreamNBBOResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tradeflux_StreamNBBOResponse_descriptor,
-        new java.lang.String[] { "NbboList", });
+        new java.lang.String[] { "Nbbo", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

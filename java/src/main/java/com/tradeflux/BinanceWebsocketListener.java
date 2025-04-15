@@ -107,8 +107,7 @@ public class BinanceWebsocketListener<T> extends WebSocketListener {
                 logger.info("Processing message for gRPC");
                 if (responseType.equals(PriceResponse.class)) {
                     processAvgPriceUpdateGrpc(data);
-                }
-                if (responseType.equals(StreamNBBOResponse.class)) {
+                } else if (responseType.equals(StreamNBBOResponse.class)) {
                     processNBBOMessageGrpc(data);
                 } else {
                     logger.info("Unrecognized responseType: " + responseType);
@@ -164,7 +163,7 @@ public class BinanceWebsocketListener<T> extends WebSocketListener {
                             .build();
 
                     StreamNBBOResponse response = StreamNBBOResponse.newBuilder()
-                            .addNbboList(nbbo)
+                            .setNbbo(nbbo)
                             .build();
 
                     ((StreamObserver<StreamNBBOResponse>) responseObserver).onNext(response);
